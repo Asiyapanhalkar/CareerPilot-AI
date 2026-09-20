@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [completedSkills, setCompletedSkills] = useState(["Python"]);
   const [roadmap, setRoadmap] = useState([
   {
     skill: "SQL",
@@ -74,7 +75,11 @@ function App() {
     career_goal: "Build a career in data analytics",
     target_role: "Data Analyst",
   };
-
+    const markSkillCompleted = (skill) => {
+  if (!completedSkills.includes(skill)) {
+    setCompletedSkills([...completedSkills, skill]);
+  }
+};
   const generateRoadmap = () => {
   const demoRoadmap = [
     {
@@ -209,9 +214,9 @@ function App() {
           </div>
 
           <div className="stat-card">
-            <span>Skills Completed</span>
-            <strong>7</strong>
-          </div>
+  <span>Skills Completed</span>
+  <strong>{completedSkills.length}</strong>
+</div>
 
           <div className="stat-card">
             <span>Roadmap</span>
@@ -340,6 +345,15 @@ function App() {
                     </div>
 
                     <p className="duration">{item.duration}</p>
+                    <button
+                        className="complete-btn"
+                        onClick={() => markSkillCompleted(item.skill)}
+                        disabled={completedSkills.includes(item.skill)}
+>
+                       {completedSkills.includes(item.skill)
+                           ? "✓ Completed"
+                           : "Mark Complete"}
+                 </button>
 
                     <ul>
                       {item.activities.map((activity) => (
