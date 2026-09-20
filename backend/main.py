@@ -101,3 +101,87 @@ def analyze_skills(profile: StudentProfile):
         "skills_matched": len(matched_skills),
         "skills_missing": len(missing_skills)
     }
+ROADMAP = {
+    "SQL": {
+        "priority": "High",
+        "duration": "2 weeks",
+        "activities": [
+            "Learn SQL basics",
+            "Practice SELECT, WHERE, JOIN and GROUP BY",
+            "Solve 20 SQL practice problems",
+            "Build a small SQL analysis project"
+        ]
+    },
+    "Excel": {
+        "priority": "High",
+        "duration": "1 week",
+        "activities": [
+            "Learn formulas and functions",
+            "Practice Pivot Tables",
+            "Learn data cleaning",
+            "Create an Excel dashboard"
+        ]
+    },
+    "Statistics": {
+        "priority": "Medium",
+        "duration": "2 weeks",
+        "activities": [
+            "Learn descriptive statistics",
+            "Study probability basics",
+            "Understand mean, median and standard deviation",
+            "Practice statistical analysis"
+        ]
+    },
+    "Data Visualization": {
+        "priority": "High",
+        "duration": "2 weeks",
+        "activities": [
+            "Learn visualization principles",
+            "Create charts using Python",
+            "Practice with Matplotlib",
+            "Build a data visualization project"
+        ]
+    },
+    "Power BI": {
+        "priority": "High",
+        "duration": "2 weeks",
+        "activities": [
+            "Learn Power BI basics",
+            "Import and clean data",
+            "Create interactive dashboards",
+            "Build a Power BI portfolio project"
+        ]
+    }
+}
+
+
+@app.post("/roadmap")
+def generate_roadmap(profile: StudentProfile):
+    required_skills = ROLE_SKILLS.get(
+        profile.target_role,
+        ROLE_SKILLS["Data Analyst"]
+    )
+
+    current_skills = [skill.lower() for skill in profile.skills]
+
+    skill_gaps = [
+        skill for skill in required_skills
+        if skill.lower() not in current_skills
+    ]
+
+    roadmap = []
+
+    for skill in skill_gaps:
+        if skill in ROADMAP:
+            roadmap.append({
+                "skill": skill,
+                "priority": ROADMAP[skill]["priority"],
+                "duration": ROADMAP[skill]["duration"],
+                "activities": ROADMAP[skill]["activities"]
+            })
+
+    return {
+        "target_role": profile.target_role,
+        "roadmap": roadmap,
+        "total_learning_steps": len(roadmap)
+    }
