@@ -95,67 +95,100 @@ const getNextRecommendation = () => {
 
   return remainingSkills[0];
 };
-  const generateRoadmap = () => {
-  const demoRoadmap = [
-    {
-      skill: "SQL",
-      priority: "High",
-      duration: "2 weeks",
-      activities: [
-        "Learn SQL basics",
-        "Practice SELECT, WHERE, JOIN and GROUP BY",
-        "Solve 20 SQL practice problems",
-        "Build a small SQL analysis project",
-      ],
-    },
-    {
-      skill: "Excel",
-      priority: "High",
-      duration: "1 week",
-      activities: [
-        "Learn formulas and functions",
-        "Practice Pivot Tables",
-        "Learn data cleaning",
-        "Create an Excel dashboard",
-      ],
-    },
-    {
-      skill: "Statistics",
-      priority: "Medium",
-      duration: "2 weeks",
-      activities: [
-        "Learn descriptive statistics",
-        "Study probability basics",
-        "Understand mean, median and standard deviation",
-        "Practice statistical analysis",
-      ],
-    },
-    {
-      skill: "Data Visualization",
-      priority: "High",
-      duration: "2 weeks",
-      activities: [
-        "Learn visualization principles",
-        "Create charts using Python",
-        "Practice with Matplotlib",
-        "Build a data visualization project",
-      ],
-    },
-    {
-      skill: "Power BI",
-      priority: "High",
-      duration: "2 weeks",
-      activities: [
-        "Learn Power BI basics",
-        "Import and clean data",
-        "Create interactive dashboards",
-        "Build a Power BI portfolio project",
-      ],
-    },
-  ];
+  const generateRoadmap = async () => {
+  const profile = {
+    name: "Asiya",
+    education: "B.Tech AIML Engineering",
+    skills: ["Python", "Java", "C++", "Machine Learning"],
+    interests: ["Data Analytics", "AI"],
+    experience: "Student",
+    career_goal: "Build a career in data analytics",
+    target_role: "Data Analyst",
+  };
 
-  setRoadmap(demoRoadmap);
-  setGenerated(true);
+  try {
+    const response = await fetch("http://127.0.0.1:8000/roadmap", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    });
+
+    if (!response.ok) {
+      throw new Error("Backend request failed");
+    }
+
+    const data = await response.json();
+
+    setRoadmap(data.roadmap);
+    setGenerated(true);
+
+  } catch (error) {
+    console.error("Backend connection failed:", error);
+
+    // Keep the existing demo working if backend is unavailable
+    const demoRoadmap = [
+      {
+        skill: "SQL",
+        priority: "High",
+        duration: "2 weeks",
+        activities: [
+          "Learn SQL basics",
+          "Practice SELECT, WHERE, JOIN and GROUP BY",
+          "Solve 20 SQL practice problems",
+          "Build a small SQL analysis project",
+        ],
+      },
+      {
+        skill: "Excel",
+        priority: "High",
+        duration: "1 week",
+        activities: [
+          "Learn formulas and functions",
+          "Practice Pivot Tables",
+          "Learn data cleaning",
+          "Create an Excel dashboard",
+        ],
+      },
+      {
+        skill: "Statistics",
+        priority: "Medium",
+        duration: "2 weeks",
+        activities: [
+          "Learn descriptive statistics",
+          "Study probability basics",
+          "Understand mean, median and standard deviation",
+          "Practice statistical analysis",
+        ],
+      },
+      {
+        skill: "Data Visualization",
+        priority: "High",
+        duration: "2 weeks",
+        activities: [
+          "Learn visualization principles",
+          "Create charts using Python",
+          "Practice with Matplotlib",
+          "Build a visualization project",
+        ],
+      },
+      {
+        skill: "Power BI",
+        priority: "High",
+        duration: "2 weeks",
+        activities: [
+          "Learn Power BI basics",
+          "Import and clean data",
+          "Create interactive dashboards",
+          "Build a Power BI portfolio project",
+        ],
+      },
+    ];
+
+    setRoadmap(demoRoadmap);
+    setGenerated(true);
+  }
 };
   return (
     <div className="app">
