@@ -415,3 +415,23 @@ button {
     gap: 15px;
   }
 }
+.recommendation-box {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 16px;
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.recommendation-box h3 {
+  margin-bottom: 10px;
+}
+
+.recommendation-box p {
+  margin: 6px 0;
+  color: #cbd5e1;
+}
+
+.recommendation-box strong {
+  color: #22d3ee;
+}
